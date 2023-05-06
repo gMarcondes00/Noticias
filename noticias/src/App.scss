@@ -1,0 +1,39 @@
+.App {
+  text-align: center;
+}
+
+
+.App-header {
+  background-color: antiquewhite;
+  min-height: 100vh;
+}
+
+.noticia-wrapper {
+  padding: 30px;
+  margin: 40px;
+  .noticia {
+    color: #282c34;
+    background-color: rgb(248, 215, 172);
+    border-radius: 30px;
+    padding: 15px;
+    margin: 30px;
+      h1{
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 25px;
+      }
+      p {
+        font-size: 25px;
+      }
+      .noticia-img {
+        width: auto;
+        height: 300px;
+        border-radius: 20px;
+      }
+  }
+  
+}
+
+
+
