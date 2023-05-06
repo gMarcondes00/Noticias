@@ -1,13 +1,18 @@
 import './App.scss';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import {useState, useEffect} from 'react';
 
+library.add();
 function App() {
   const [news, setNews] = useState(null);
-  const [search, setSearch] = useState("sao%20paulo");
+  const [search, setSearch] = useState("sao%paulo");
+  const [lang, setLang] = useState('pt');
   const [input, setInput] = useState('');
 
-  const urlAPI = `https://newsapi.org/v2/everything?q=${search}&language=pt&apiKey=b9207aaccc944677b18cc7d1b7638a79`;
+  const urlAPI = `https://newsapi.org/v2/everything?q=${search}&language=${lang}&apiKey=b9207aaccc944677b18cc7d1b7638a79`;
 
   useEffect(()=>{
     axios.get(urlAPI)
@@ -22,14 +27,17 @@ function App() {
       .catch(err => console.log(err))
   }
 
+  const handleKeyPress = (e) => {
+    if(e.key === 'Enter') {
+      getNews();
+    }
+  }
+
   if(!news){
   return (
     <div className="App">
       <header className="App-header">
-        <div>
-          <input type='text' onChange={(e)=>setInput(e.target.value)}/><br/>
-          <button onClick={getNews}>Procurar</button>
-        </div>
+          <h1>Carregando...</h1>
       </header>
     </div>
   );
@@ -37,10 +45,16 @@ function App() {
     return (
       <div className="App">
         <header className="App-header">
-          <div>
-            <input type='text' onChange={(e)=>setInput(e.target.value)}/><br/>
-            <button onClick={getNews}>Procurar</button>
-          </div>
+            <h1>Insira uma palavra e receba notícias diversas sobre o assunto!</h1>
+            <input type='text' onChange={(e)=>setInput(e.target.value)} onKeyUp={handleKeyPress}/>
+            <button onClick={getNews}className='btn'><FontAwesomeIcon icon={faMagnifyingGlass} className='search'/></button>
+            <select name='select' onChange={e=>setLang(e.target.value)}>
+              <option value="pt" selected>PT</option>
+              <option value="en">EN</option>
+              <option value="ru">RU</option>
+              <option value="fr">FR</option>
+              <option value="es">ES</option>
+            </select>
           <div className="noticia-wrapper">
             {news.articles.map((artigo, index)=>(
             <div key={index} className='noticia'>
